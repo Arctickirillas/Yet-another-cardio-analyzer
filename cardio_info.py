@@ -22,7 +22,7 @@ def get_spectrum_power(spectrum, freq, fmin, fmax):
 # get TP, LF, HF and LF/HF
 def get_frequences(rr,time_axis):
     # -- Normalize non-normal peaks
-    rr_peak_index = peakutils.indexes(rr,thres=0.1, min_dist=50) # get non-normal peaks
+    rr_peak_index = peakutils.indexes(rr,thres=0.1, min_dist=5) # get non-normal peaks
     time_nn, rr_nn = [], []
 
     # find non-normal's neighbours
@@ -63,7 +63,7 @@ def get_frequences(rr,time_axis):
     detrend_rr = (window*detrend_rr)/1000
 
     # -- Obtaing spectrum
-    spectr = 20 * np.log10(np.absolute(np.fft.fft(detrend_rr,2048))) # zero padding to 2 ^ 11
+    spectr = (np.absolute(np.fft.fft(detrend_rr,2048))) # zero padding to 2 ^ 11
     spectr = spectr[0:len(spectr)/2] # use only positive section
 
     freqs = np.linspace(start=0, stop=INTERPOLATION_FREQ/2, num=len(spectr), endpoint=True) # frequence space
